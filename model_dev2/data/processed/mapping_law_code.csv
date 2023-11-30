@@ -1,0 +1,5 @@
+law_code_category_description,law_code_ordinal
+FELONY,0
+INVESTIGATION,1
+MISDEMEANOR,2
+VIOLATION,3
