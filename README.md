@@ -18,17 +18,50 @@ https://catalog.data.gov/dataset/nypd-arrest-data-year-to-date
 2. Column Removal:
 
       Certain columns were identified for removal, as they were deemed unnecessary for the analysis. The script utilized a predefined list (to_drop) containing column names like 'incident_key,' 'occur_time,' and others. These columns were then dropped from the dataset.
-   ```
+```
+# Columns to be dropped
+to_drop = [
+    'arrest_key',
+    'pd_cd',
+    'pd_desc',
+    'ky_cd',
+    'law_code',
+    'law_cat_cd',
+    'jurisdiction_code',
+    'x_coord_cd',
+    'y_coord_cd',
+    'latitude',
+    'longitude',
+    'new_georeferenced_column',
+]
 
-4. Date Column Transformation:
+# Drop specified columns from the DataFrame 'df'
+df.drop(to_drop, axis=1, inplace=True, errors='ignore')
+```
+
+
+3. Date Column Transformation:
 
     The date column was transformed. First, it was converted to a datetime datatype, providing a standardized date format. Subsequently, the days of the week (Monday through Sunday) were extracted from the date and coded into integer values (1 to 7). This enhanced representation facilitates day-wise analysis. A data dictionary detailing these transformations was then saved to a CSV file in the /model_dev1/data/processed folder.
 
-5. Ordinal Encoding for Multiple Columns:
+4.  Ordinal Encoding for Multiple Columns:
 
-      Several categorical columns such as 'boro,' 'statistical_murder_flag,' 'perp_age_group,' 'perp_sex,' 'perp_race,' 'vic_age_group,' 'vic_sex,' and 'vic_race' underwent ordinal encoding. This process assigned integer values to categories, facilitating numerical analysis. Corresponding data dictionaries for these columns were saved in the /model_dev1/data/processed folder.
+      Several categorical columns such as 'arrest_boro,' 'statistical_murder_flag,' 'perp_age_group,' 'perp_sex,' 'perp_race,' 'vic_age_group,' 'vic_sex,' and 'vic_race' underwent ordinal encoding. This process assigned integer values to categories, facilitating numerical analysis. Corresponding data dictionaries for these columns were saved in the /model_dev1/data/processed folder.
+```
+## Encoding the arrest_boro column
+enc = OrdinalEncoder()
+enc.fit(df[['arrest_boro']])
+df['arrest_boro'] = enc.transform(df[['arrest_boro']])
 
-6. Save Cleaned Data:
+# Creating a dataframe with mapping
+df_mapping_boro = pd.DataFrame(enc.categories_[0], columns=['arrest_boro'])
+df_mapping_boro['boro_ordinal'] = df_mapping_boro.index
+df_mapping_boro.head(5)
+# save mapping to csv
+df_mapping_boro.to_csv('model_dev1/data/processed/mapping_boro.csv', index=False)
+```
+
+5. Save Cleaned Data:
 
    A duplicate of the cleaned and processed dataset was stored in the /model_dev1/data/processed folder. This step ensures that the modified dataset is readily available for subsequent analyses or model development.
 
