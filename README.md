@@ -75,10 +75,13 @@ In the p3_compute.py file, a script is created to perform the dataset splitting 
 
 
 
+## Dataset 2: NYPD Hate Crimes
 
+https://catalog.data.gov/dataset/nypd-hate-crimes 
 
+- The NYPD Hate Crimes dataset captures incidents of hate crimes reported to the New York Police Department. The dataset covers hate crime incidents in New York, providing a comprehensive view of offenses motivated by bias or prejudice. This dataset enables a comprehensive analysis of hate crimes, allowing for insights into temporal trends, geographic patterns, offense types, and bias motives. The inclusion of arrest-related information adds a layer of understanding law enforcement responses and outcomes. Researchers and analysts can use this dataset to explore the dynamics of hate crimes in New York City over time.
 
+- The intended machine learning task for this dataset involves classification, with column 'offense_description' (a description of the offense) being the target variable (X).
 
-## Dataset 2
-
+  
 ### Cleaning and Transforming Data
