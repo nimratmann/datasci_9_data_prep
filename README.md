@@ -150,3 +150,9 @@ df.to_csv('model_dev2/data/processed/processed_hate_crimes.csv', index=False)
 ```
 
 ### Dataset Splitting
+
+In the p3_compute.py file, dataset was split into three parts:
+
+- Training data (train_x, train_y)
+- Validation data (val_x, val_y)
+- Testing data (test_x, test_y)
