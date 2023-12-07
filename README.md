@@ -64,6 +64,20 @@ df_mapping_boro.to_csv('model_dev1/data/processed/mapping_boro.csv', index=False
 5. Save Cleaned Data:
 
    A duplicate of the cleaned and processed dataset was stored in the /model_dev1/data/processed folder. This step ensures that the modified dataset is readily available for subsequent analyses or model development.
+### Dataset Splitting
+In the p3_compute.py file, a script is created to perform the dataset splitting into these three parts. This division is crucial for model development and evaluation:
+
+- Training ```(train_x, train_y)```: The model learns patterns from the training set, adjusting its parameters based on the provided features and labels.
+- Validation ```(val_x, val_y)```: During training, the model's performance is regularly evaluated on the validation set to identify issues like overfitting or underfitting and fine-tune hyperparameters accordingly.
+- Testing ```(test_x, test_y)```: The final evaluation is conducted on the test set, providing an unbiased assessment of the model's ability to generalize to new, unseen data.
+
+
+
+
+
+
+
+
 
 ## Dataset 2
 
