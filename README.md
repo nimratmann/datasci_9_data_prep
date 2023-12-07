@@ -46,7 +46,7 @@ df.drop(to_drop, axis=1, inplace=True, errors='ignore')
 
 4.  Ordinal Encoding for Multiple Columns:
 
-      Several categorical columns such as 'arrest_boro,' 'statistical_murder_flag,' 'perp_age_group,' 'perp_sex,' 'perp_race,' 'vic_age_group,' 'vic_sex,' and 'vic_race' underwent ordinal encoding. This process assigned integer values to categories, facilitating numerical analysis. Corresponding data dictionaries for these columns were saved in the /model_dev1/data/processed folder.
+      Several categorical columns such as 'arrest_boro,' 'arrest_precinct', 'age_group,' 'perp_sex,' and 'perp_race' underwent ordinal encoding. This process assigned integer values to categories, facilitating numerical analysis. Corresponding data dictionaries for these columns were saved in the /model_dev1/data/processed folder.
 ```
 ## Encoding the arrest_boro column
 enc = OrdinalEncoder()
