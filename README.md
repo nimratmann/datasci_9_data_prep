@@ -64,6 +64,7 @@ df_mapping_boro.to_csv('model_dev1/data/processed/mapping_boro.csv', index=False
 5. Save Cleaned Data:
 
    A duplicate of the cleaned and processed dataset was stored in the /model_dev1/data/processed folder. This step ensures that the modified dataset is readily available for subsequent analyses or model development.
+   
 ### Dataset Splitting
 In the p3_compute.py file, a script is created to perform the dataset splitting into these three parts. This division is crucial for model development and evaluation:
 
@@ -85,3 +86,67 @@ https://catalog.data.gov/dataset/nypd-hate-crimes
 
   
 ### Cleaning and Transforming Data
+1. Column Name Standardization:
+   
+   Standardized column names by converting them to lowercase and replacing spaces with underscores.
+```
+df.columns = df.columns.str.lower().str.replace(' ', '_')
+```
+
+2. Drop Columns with Missing Values:
+
+    Identified and dropped columns with potentially too many missing values.
+```
+to_drop = [
+    'full_complaint_id',
+    'complaint_year_number',
+    'month_number',
+    'complaint_precinct_code',
+    'pd_code_description',
+    'arrest_date',
+    'arrest_id',
+]
+df.drop(to_drop, axis=1, inplace=True, errors='ignore')
+
+```
+3. Change Data Types and Ordinal Encoding for Dates:
+   
+- Converted the 'record_create_date' column to a datetime data type.
+- Extracted month and year, then performed ordinal encoding on the date.
+```
+df['record_create_date'] = pd.to_datetime(df['record_create_date'])
+df['record_create_date'] = df['record_create_date'].dt.to_period('M')
+enc = OrdinalEncoder()
+enc.fit(df[['record_create_date']])
+df['record_create_date'] = enc.transform(df[['record_create_date']])
+```       
+4. Ordinal Encoding for Categorical Columns:
+
+    Applied ordinal encoding to several categorical columns, including 'patrol_borough_name,' 'county,' 'law_code_category_description,' 'offense_description,' 'bias_motive_description,' and 'offense_category.'
+```
+# Example for 'patrol_borough_name'
+enc = OrdinalEncoder()
+enc.fit(df[['patrol_borough_name']])
+df['patrol_borough_name'] = enc.transform(df[['patrol_borough_name']])
+# Similar encoding for other categorical columns
+```
+
+5. Create DataFrames with Mapping Information:
+
+   For each ordinal encoding process, created a dataframe with mapping information to capture the original categorical values and their corresponding encoded numerical values.
+```
+# Example for 'patrol_borough_name'
+df_mapping_borough = pd.DataFrame(enc.categories_[0], columns=['patrol_borough_name'])
+df_mapping_borough['borough_ordinal'] = df_mapping_borough.index
+df_mapping_borough.to_csv('model_dev2/data/processed/mapping_borough.csv', index=False)
+# Similar dataframes for other ordinal encoding processes
+```
+6. Save Processed Dataset to CSV:
+
+    Saved the final processed dataset to a CSV file for testing models.
+
+```
+df.to_csv('model_dev2/data/processed/processed_hate_crimes.csv', index=False)
+```
+
+### Dataset Splitting
